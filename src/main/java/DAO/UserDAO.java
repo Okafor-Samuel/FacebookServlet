@@ -4,10 +4,9 @@ import DTO.UserDTO;
 import org.mindrot.jbcrypt.BCrypt;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
     private Connection connection;
@@ -28,7 +27,48 @@ public class UserDAO {
         preparedStatement.setString(4,userDTO.getPassword());
         preparedStatement.setString(5,userDTO.getGender());
         preparedStatement.setString(6,userDTO.getDateOfBirth());
-
+        preparedStatement.execute();
         connection.close();
     }
+    public UserDTO findUser (String email, String password) throws SQLException, ClassNotFoundException {
+        connect();
+        String query = "select * from users where " +
+                "email=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, email);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        UserDTO userDTO;
+        if(resultSet.next() && BCrypt.checkpw(password, resultSet.getString(3))){
+            userDTO =  UserDTO.builder()
+                    .email(resultSet.getString(2))
+                    .dateOfBirth(resultSet.getString(4))
+                    .firstName(resultSet.getString(5))
+                    .lastName(resultSet.getString(6)).build();
+            connection.close();
+            return userDTO;
+        }
+        connection.close();
+        return null;
+    }
+
+    public List<UserDTO> findAllUsers() throws SQLException, ClassNotFoundException {
+        connect();
+        String query = "select * from users";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        UserDTO userDTO;
+        List<UserDTO> userDTOList = new ArrayList<>();
+        while(resultSet.next()){
+            userDTO = UserDTO.builder()
+                    .firstName(resultSet.getString(1))
+                    .lastName(resultSet.getString(2))
+                    .email(resultSet.getString(3))
+                    .gender(resultSet.getString(4))
+                    .dateOfBirth(resultSet.getString(5)).build();
+
+            userDTOList.add(userDTO);
+        }
+        return userDTOList;
+    }
+
 }
