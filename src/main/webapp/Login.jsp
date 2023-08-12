@@ -18,7 +18,7 @@ To change this template use File | Settings | File Templates.
             <img src="${pageContext.request.contextPath}/Images/facebook.png" alt="Facebook logo" class="logo" />
         </div>
 
-        <form action="GET" action="/LoginServlet"> /dashboard">
+        <form action="GET" action="/login"> /dashboard">
             <p class="form-heading">Log in to Facebook<p/>
             <input type="text" placeholder="Email address or phone number"/>
             <input type="password" placeholder="Password"/>

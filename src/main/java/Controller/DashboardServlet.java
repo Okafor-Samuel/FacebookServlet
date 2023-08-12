@@ -7,11 +7,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "dashboard", value = "/dashboard")
+@WebServlet(name = "dashboard", value = "/Dashboard")
 public class DashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("dashboard.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("Dashboard.jsp");
         req.setAttribute("name", req.getAttribute("firstname"));
         dispatcher.forward(req, resp);
     }

@@ -1,6 +1,6 @@
 package DTO;
 
-import Model.User;
+import Model.Users;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class UserDTO {
     private String gender;
     private String dateOfBirth;
 
-    public UserDTO(User user) {
+    public UserDTO(Users user) {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
